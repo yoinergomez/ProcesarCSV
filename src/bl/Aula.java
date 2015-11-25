@@ -6,8 +6,9 @@
 package bl;
 
 /**
- *
- * @author esteban
+ * 
+ * @author Yoiner Gómez - yoiner.gomez22@gmail.com
+ * @version 1.1
  */
 class Aula {
     
