@@ -10,17 +10,23 @@ package bl;
  * @author Yoiner Gómez - yoiner.gomez22@gmail.com
  * @version 1.1
  */
-public class Facultad {
+public class Materia {
     
     private char codigo;
+    private Departamento departamento;
     private String nombre;
 
     public char getCodigo() {
         return codigo;
     }
 
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
     public String getNombre() {
         return nombre;
     }
+    
     
 }

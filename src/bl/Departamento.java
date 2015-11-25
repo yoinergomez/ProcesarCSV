@@ -6,9 +6,27 @@
 package bl;
 
 /**
- *
- * @author esteban
+ * 
+ * @author Yoiner Gómez - yoiner.gomez22@gmail.com
+ * @version 1.1
  */
 public class Departamento {
+    
+    private char codigo;
+    private Facultad facultad;
+    private String nombre;
+
+    public char getCodigo() {
+        return codigo;
+    }
+
+    public Facultad getFacultad() {
+        return facultad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
     
 }
