@@ -15,6 +15,11 @@ public class Facultad {
     private char codigo;
     private String nombre;
 
+    public Facultad(char codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
+    
     public char getCodigo() {
         return codigo;
     }
