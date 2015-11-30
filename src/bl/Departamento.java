@@ -12,15 +12,21 @@ package bl;
  */
 public class Departamento {
     
-    private int codigo;
-    private Facultad facultad;
+    private String codigo;
+    private String facultad;
     private String nombre;
 
-    public int getCodigo() {
+    public Departamento(String facultad, String codigo, String nombre) {
+        this.codigo = codigo;
+        this.facultad = facultad;
+        this.nombre = nombre;
+    }
+    
+    public String getCodigo() {
         return codigo;
     }
 
-    public Facultad getFacultad() {
+    public String getFacultad() {
         return facultad;
     }
 

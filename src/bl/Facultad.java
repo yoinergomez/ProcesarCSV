@@ -18,6 +18,9 @@ public class Facultad {
     public Facultad(String codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
+        if(codigo.equals("25")){
+            this.nombre = "Facultad de ingenieria";
+        }
     }
     
     public String getCodigo() {

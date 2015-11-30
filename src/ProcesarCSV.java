@@ -5,7 +5,9 @@
  */
 
 
+import bl.Departamento;
 import bl.Facultad;
+import bl.Materia;
 import bl.csv.FilaCSV;
 import util.FragmentarLinea;
 import java.io.BufferedReader;
@@ -162,7 +164,8 @@ public class ProcesarCSV {
     
     private StringBuilder sql;
     private Map<String, Facultad> facultad;
-    private Map<String, String> departamento;
+    private Map<String, Departamento> departamento;
+    private Map<String, Materia> materia;
     private Map<Integer, String> bloque;
     private Map<Integer, String> aula;
     
@@ -222,8 +225,13 @@ public class ProcesarCSV {
         
         facultad = new HashMap<>();
         departamento = new HashMap<>();
+        materia = new HashMap<>();
         bloque = new HashMap<>();
         aula = new HashMap<>();
+        
+        Facultad fac;
+        Departamento dep;
+        Materia mat;
         
         try {
             FileReader f = new FileReader("/home/esteban/Descargas/PROGRAMACION.csv");
@@ -233,18 +241,17 @@ public class ProcesarCSV {
             while ((linea = b.readLine()) != null) {
                 
                 actual = new FilaCSV(linea);
-                ajustarCodigoMateria(actual);
+                actual = ajustarCodigoMateria(actual);
                 
-                //Verificando que la facultad sea ingeniería
-                if(actual.getFac().equals("25")){
-                    facultad.put(actual.getFac(), new Facultad(actual.getFac(), "ING"));
-                }else {
-                    facultad.put(actual.getFac(), new Facultad(actual.getFac(), ""));
-                }
+                fac = new Facultad(actual.getFac(), "");
+                dep = new Departamento(actual.getFac(), actual.getDep(), actual.getIde());
+                mat = new Materia(dep, actual.getCodMateria(), actual.getNombre());
                 
-                departamento.put(actual.getDep(), linea);
+                facultad.put(fac.getCodigo(), fac);
+                departamento.put(actual.getCodDepartamento(), dep);
+                materia.put(actual.getCodMateria(), mat);
             }
-            
+            System.out.println(facultad.size());
             
             b.close();
             
@@ -272,25 +279,46 @@ public class ProcesarCSV {
     
     public FilaCSV ajustarCodigoMateria(FilaCSV fila){
         
-        while(fila.getFac().length()<2){
+        while(fila.getFac().length()<2 && !fila.getFac().isEmpty()){
             fila.setFac("0"+fila.getFac());
         }
-        while(fila.getDep().length()<2){
+        while(fila.getDep().length()<2 && !fila.getDep().isEmpty()){
             fila.setDep("0"+fila.getDep());
         }
-        while(fila.getMat().length()<3){
+        while(fila.getMat().length()<3 && !fila.getMat().isEmpty()){
             fila.setMat("0"+fila.getMat());
         }
         
         return fila;
     }
     
+    public void eliminarClavesVacias(){
+        facultad.remove("");
+        departamento.remove("");
+        materia.remove("");
+    }
     
-    public void mostrarFacultades(HashMap<Integer, Facultad> in){
-        Iterator it = in.keySet().iterator();
+    public void mostrarFacultades(){
+        Iterator it = facultad.keySet().iterator();
         while(it.hasNext()){
-            Integer key = (Integer) it.next();
-            System.out.println(key + "\t" + in.get(key).getNombre());
+            String key = (String) it.next();
+            System.out.println(key + "\t" + facultad.get(key).getNombre());
+        }
+    }
+    
+    public void mostrarDepartamentos(){
+        Iterator it = departamento.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String) it.next();
+            System.out.println(key + "\t" + departamento.get(key).getNombre());
+        }
+    }
+    
+    public void mostrarMaterias(){
+        Iterator it = materia.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String) it.next();
+            System.out.println(key + "\t" + materia.get(key).getNombre());
         }
     }
     
@@ -298,5 +326,9 @@ public class ProcesarCSV {
         ProcesarCSV run = new ProcesarCSV();
         run.crearTablas();
         run.procesarlinea();
+        run.eliminarClavesVacias();
+        run.mostrarFacultades();
+        run.mostrarDepartamentos();
+        run.mostrarMaterias();
     }
 }

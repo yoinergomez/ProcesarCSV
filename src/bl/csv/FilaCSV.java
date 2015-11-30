@@ -35,7 +35,7 @@ public class FilaCSV {
      */
     public FilaCSV(String csv){
         
-        String[] frag = csv.split(",");
+        String[] frag = csv.split(",",12);
         
         fac = frag[0];
         dep = frag[1];
@@ -207,6 +207,14 @@ public class FilaCSV {
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
-
+    
+    public String getCodDepartamento(){
+        return fac+dep;
+    }
+    
+    public String getCodMateria(){
+        return fac+dep+mat;
+    }
+    
    
 }

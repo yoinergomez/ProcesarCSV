@@ -12,21 +12,31 @@ package bl;
  */
 public class Materia {
     
-    private char codigo;
+    private String codigo;
     private Departamento departamento;
     private String nombre;
 
-    public char getCodigo() {
+    public Materia(Departamento departamento, String codigo, String nombre) {
+        this.codigo = codigo;
+        this.departamento = departamento;
+        this.nombre = nombre;
+    }
+
+    
+    public String getCodigo() {
         return codigo;
     }
 
-    public Departamento getDepartamento() {
-        return departamento;
+    public String getDepartamento() {
+        return departamento.getCodigo();
     }
 
     public String getNombre() {
         return nombre;
     }
     
+    public String getFacultad(){
+        return departamento.getFacultad();
+    }
     
 }
