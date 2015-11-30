@@ -12,7 +12,7 @@ package bl;
  */
 public class Facultad {
     
-    private char codigo;
+    private int codigo;
     private String nombre;
 
     public Facultad(char codigo, String nombre) {
@@ -20,7 +20,7 @@ public class Facultad {
         this.nombre = nombre;
     }
     
-    public char getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
