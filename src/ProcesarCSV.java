@@ -9,8 +9,8 @@ import bl.Departamento;
 import bl.Profesor;
 import bl.Facultad;
 import bl.Materia;
+import bl.Aula;
 import bl.csv.FilaCSV;
-import util.FragmentarLinea;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,14 +20,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -168,8 +164,7 @@ public class ProcesarCSV {
     private Map<String, Departamento> departamento;
     private Map<String, Materia> materia;
     private Map<Integer, Profesor> profesor;
-    private Map<Integer, String> bloque;
-    private Map<Integer, String> aula;
+    private Map<String, Aula> bloqueAula;
     
     /**
      * Constructor de la clase
@@ -229,13 +224,13 @@ public class ProcesarCSV {
         departamento = new HashMap<>();
         materia = new HashMap<>();
         profesor = new HashMap<>();
-        bloque = new HashMap<>();
-        aula = new HashMap<>();
+        bloqueAula = new HashMap<>();
         
         Facultad fac;
         Departamento dep;
         Materia mat;
         Profesor prof;
+        Aula bloqAula;
         
         try {
             FileReader f = new FileReader("/home/esteban/Descargas/PROGRAMACION.csv");
@@ -251,14 +246,15 @@ public class ProcesarCSV {
                 dep = new Departamento(actual.getFac(), actual.getDep(), actual.getIde());
                 mat = new Materia(dep, actual.getCodMateria(), actual.getNombre());
                 prof = new Profesor(actual.getCedula(), actual.getProfesor());
+                bloqAula = new Aula(actual.getBloque(), actual.getAula());
                 
                 facultad.put(fac.getCodigo(), fac);
                 departamento.put(actual.getCodDepartamento(), dep);
                 materia.put(actual.getCodMateria(), mat);
                 profesor.put(prof.getCedula(), prof);
+                bloqueAula.put(bloqAula.getBloque()+bloqAula.getNumero(), bloqAula);
                 
             }
-            System.out.println(facultad.size());
             
             b.close();
             
@@ -303,6 +299,7 @@ public class ProcesarCSV {
         facultad.remove("");
         departamento.remove("");
         materia.remove("");
+        profesor.remove(0);
     }
     
     public void mostrarFacultades(){
@@ -332,7 +329,7 @@ public class ProcesarCSV {
     public void mostrarProfesores(){
         Iterator it = profesor.keySet().iterator();
         while(it.hasNext()){
-            String key = (String) it.next();
+            Integer key = (Integer) it.next();
             System.out.println(key + "\t" + profesor.get(key).getNombre());
         }
     }
@@ -342,8 +339,11 @@ public class ProcesarCSV {
         run.crearTablas();
         run.procesarlinea();
         run.eliminarClavesVacias();
+        /*
         run.mostrarFacultades();
         run.mostrarDepartamentos();
         run.mostrarMaterias();
+        */
+        run.mostrarProfesores();
     }
 }

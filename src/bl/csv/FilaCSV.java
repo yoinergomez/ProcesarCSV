@@ -21,7 +21,7 @@ public class FilaCSV {
     private String nombre;
     private String cupo;
     private String matri;
-    private String aula;
+    private String bloqueAula[];
     private String horario;
     private Integer cedula;
     private String profesor;
@@ -45,10 +45,22 @@ public class FilaCSV {
         nombre = frag[5];
         cupo = frag[6];
         matri = frag[7];
-        aula = frag[8];
         horario = frag[9];
-        cedula = Integer.parseInt(frag[10]);
         profesor = frag[11];
+        
+        if(!frag[8].equalsIgnoreCase("SIU") || !frag[8].equalsIgnoreCase("VIRTUAL")){
+            int tamaño = frag[8].length();
+            bloqueAula[0] = frag[8].substring(tamaño-3, tamaño);
+            bloqueAula[1] = frag[8].substring(0, tamaño-3);
+        } else{
+            bloqueAula[1] = frag[8];
+        }
+        
+        try{
+            cedula = Integer.parseInt(frag[10]);
+        }catch(NumberFormatException e){
+            cedula = 0;
+        }
     }
     /*
     private FilaCSV() {
@@ -138,16 +150,30 @@ public class FilaCSV {
      * @return the aula
      */
     public String getAula() {
-        return aula;
+        return bloqueAula[1];
     }
 
     /**
      * @param aula the aula to set
      */
     public void setAula(String aula) {
-        this.aula = aula;
+        this.bloqueAula[1] = aula;
     }
 
+     /**
+     * @return the bloque
+     */
+    public Integer getBloque() {
+        return Integer.parseInt(bloqueAula[0]);
+    }
+
+    /**
+     * @param aula the bloque to set
+     */
+    public void setBloque(String bloque) {
+        this.bloqueAula[0] = bloque;
+    }
+    
     /**
      * @return the horario
      */

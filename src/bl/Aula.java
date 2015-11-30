@@ -10,11 +10,16 @@ package bl;
  * @author Yoiner Gómez - yoiner.gomez22@gmail.com
  * @version 1.1
  */
-class Aula {
+public class Aula {
     
     private String numero;
     private Integer bloque;
 
+    public Aula(Integer bloque, String numero) {
+        this.numero = numero;
+        this.bloque = bloque;
+    }
+    
     public String getNumero() {
         return numero;
     }
