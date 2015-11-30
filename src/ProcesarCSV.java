@@ -5,6 +5,8 @@
  */
 
 
+import bl.Facultad;
+import bl.csv.FilaCSV;
 import util.FragmentarLinea;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,26 +15,43 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 
 /**
  * @version 1.0
  * @author esteban
  */
+
+
 public class ProcesarCSV {
 
     /**
      * @param args the command line arguments
      */
+    /*
     private StringBuilder sql;
     private FragmentarLinea line = FragmentarLinea.getInstance();
 
     public ProcesarCSV() throws IOException {
         sql = new StringBuilder();
+        
+        
         crearTabla();
         leerArchivoXLS();
         eliminarFilasRepetidas();
         generarSQL();
+        
     }
 
     //FAC,DEP,IDE,MAT,GR,NOMBRE DE LA MATERIA,CUPO,MATRI,AULA,HORARIO,CEDULA,DOCENTE
@@ -139,5 +158,110 @@ public class ProcesarCSV {
     public static void main(String[] args) throws IOException {
         ProcesarCSV run = new ProcesarCSV();
     }
+    */
+    
+    private StringBuilder sql;
+    private Map<String, Facultad> facultad;
+    private Map<Integer, String> departamento;
+    private Map<Integer, String> bloque;
+    private Map<Integer, String> aula;
+    
+    /**
+     * Constructor de la clase
+     * 
+     */
+    public ProcesarCSV(){
+        sql = new StringBuilder();
+    }
+    
+    /**
+     * Lee un archivo SQL que contiene las sentencias necesarias
+     * para la creación de las tablas de la base de datos.
+     * 
+     * @throws NullPointerException  
+     * Verificar que el archivo tablas.sql se encuentre en el directorio
+     * util/tablasSQL/tablas.sql de lo contrario cambiar el path
+     * donde se encentre alojado
+     * 
+     * @throws BufferedReader
+     * Cerrar el canal de comunicaciones que se crea
+     * para proceder con la lectura del archivo
+     * 
+     */
+    public void crearTablas() {
+        String linea;
 
+        try {
+        InputStream is = getClass().getResourceAsStream("util/tablasSQL/tablas.sql") ;
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+        
+        //Lectura por líneas
+        while ((linea = br.readLine()) != null) {
+            sql.append(linea).append("\n");
+        }
+        
+        //Cerrando la comunicación
+        br.close();
+        isr.close();
+        is.close();
+        }catch(Exception e){
+            String mnj = "Error al crear las tablas del archivo tablas.sql";
+            JOptionPane.showMessageDialog(null, mnj+"\n"+e , "Error",
+            JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    public void procesarlinea(){
+        
+        String linea;
+        FilaCSV actual;
+        FilaCSV ultimo;
+        
+        facultad = new HashMap<>();
+        departamento = new HashMap<>();
+        bloque = new HashMap<>();
+        aula = new HashMap<>();
+        
+        try {
+            FileReader f = new FileReader("/home/esteban/Descargas/PROGRAMACION.csv");
+            BufferedReader b = new BufferedReader(f);
+            
+            b.readLine();
+            while ((linea = b.readLine()) != null) {
+                
+                actual = new FilaCSV(linea);
+                
+            }
+            
+            
+            b.close();
+            
+        } catch (FileNotFoundException e) {
+            String mnj = "No se encontró el archivo seleccionado\n"
+                    + "Recuerde que el archivo debe ser de extensión xls o xlsx";
+            JOptionPane.showMessageDialog(null, mnj+"\n"+e , "Error",
+            JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            String mnj = "Error al leer el archivo ";
+            JOptionPane.showMessageDialog(null, mnj+"\n"+ex , "Error",
+            JOptionPane.WARNING_MESSAGE);
+        } 
+        
+    }
+    
+    public void mostrarFacultades(HashMap<Integer, Facultad> in){
+        Iterator it = in.keySet().iterator();
+        while(it.hasNext()){
+            Integer key = (Integer) it.next();
+            System.out.println(key + "\t" + in.get(key).getNombre());
+        }
+    }
+    
+    public static void main(String[] args)  {
+        ProcesarCSV run = new ProcesarCSV();
+        run.crearTablas();
+        run.procesarlinea();
+    }
 }
