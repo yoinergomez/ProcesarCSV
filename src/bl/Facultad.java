@@ -12,15 +12,15 @@ package bl;
  */
 public class Facultad {
     
-    private int codigo;
+    private String codigo;
     private String nombre;
 
-    public Facultad(char codigo, String nombre) {
+    public Facultad(String codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
     }
     
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 

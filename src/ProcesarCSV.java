@@ -162,7 +162,7 @@ public class ProcesarCSV {
     
     private StringBuilder sql;
     private Map<String, Facultad> facultad;
-    private Map<Integer, String> departamento;
+    private Map<String, String> departamento;
     private Map<Integer, String> bloque;
     private Map<Integer, String> aula;
     
@@ -215,6 +215,7 @@ public class ProcesarCSV {
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public void procesarlinea(){
         
+        final String facultadIng = "Facultad de ingenieria";
         String linea;
         FilaCSV actual;
         FilaCSV ultimo;
@@ -232,7 +233,16 @@ public class ProcesarCSV {
             while ((linea = b.readLine()) != null) {
                 
                 actual = new FilaCSV(linea);
+                ajustarCodigoMateria(actual);
                 
+                //Verificando que la facultad sea ingeniería
+                if(actual.getFac().equals("25")){
+                    facultad.put(actual.getFac(), new Facultad(actual.getFac(), "ING"));
+                }else {
+                    facultad.put(actual.getFac(), new Facultad(actual.getFac(), ""));
+                }
+                
+                departamento.put(actual.getDep(), linea);
             }
             
             
@@ -250,6 +260,31 @@ public class ProcesarCSV {
         } 
         
     }
+    
+    /**
+     * Ajusta el código de la facultad, departamento y materia
+     * para completar el codigo de la materia que debe estar 
+     * compuesto por siete caracteres.
+     * 
+     * @param fila
+     * @return 
+     */
+    
+    public FilaCSV ajustarCodigoMateria(FilaCSV fila){
+        
+        while(fila.getFac().length()<2){
+            fila.setFac("0"+fila.getFac());
+        }
+        while(fila.getDep().length()<2){
+            fila.setDep("0"+fila.getDep());
+        }
+        while(fila.getMat().length()<3){
+            fila.setMat("0"+fila.getMat());
+        }
+        
+        return fila;
+    }
+    
     
     public void mostrarFacultades(HashMap<Integer, Facultad> in){
         Iterator it = in.keySet().iterator();

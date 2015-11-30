@@ -13,7 +13,7 @@ public class FilaCSV {
 
     private static FilaCSV instance = null;
     
-    private int fac;
+    private String fac;
     private String dep;
     private String ide;
     private String mat;
@@ -37,7 +37,7 @@ public class FilaCSV {
         
         String[] frag = csv.split(",");
         
-        fac = Integer.parseInt(frag[0]);
+        fac = frag[0];
         dep = frag[1];
         ide = frag[2];
         mat = frag[3];
@@ -67,14 +67,14 @@ public class FilaCSV {
     /**
      * @return the fac
      */
-    public int getFac() {
+    public String getFac() {
         return fac;
     }
 
     /**
      * @param fac the fac to set
      */
-    public void setFac(int fac) {
+    public void setFac(String fac) {
         this.fac = fac;
     }
 

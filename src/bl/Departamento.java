@@ -12,11 +12,11 @@ package bl;
  */
 public class Departamento {
     
-    private char codigo;
+    private int codigo;
     private Facultad facultad;
     private String nombre;
 
-    public char getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
