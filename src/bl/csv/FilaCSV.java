@@ -23,7 +23,7 @@ public class FilaCSV {
     private String matri;
     private String aula;
     private String horario;
-    private String cedula;
+    private Integer cedula;
     private String profesor;
     
     /**
@@ -47,7 +47,7 @@ public class FilaCSV {
         matri = frag[7];
         aula = frag[8];
         horario = frag[9];
-        cedula = frag[10];
+        cedula = Integer.parseInt(frag[10]);
         profesor = frag[11];
     }
     /*
@@ -200,11 +200,11 @@ public class FilaCSV {
         this.matri = matri;
     }
 
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
     

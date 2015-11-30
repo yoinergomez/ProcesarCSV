@@ -6,6 +6,7 @@
 
 
 import bl.Departamento;
+import bl.Profesor;
 import bl.Facultad;
 import bl.Materia;
 import bl.csv.FilaCSV;
@@ -166,6 +167,7 @@ public class ProcesarCSV {
     private Map<String, Facultad> facultad;
     private Map<String, Departamento> departamento;
     private Map<String, Materia> materia;
+    private Map<Integer, Profesor> profesor;
     private Map<Integer, String> bloque;
     private Map<Integer, String> aula;
     
@@ -226,12 +228,14 @@ public class ProcesarCSV {
         facultad = new HashMap<>();
         departamento = new HashMap<>();
         materia = new HashMap<>();
+        profesor = new HashMap<>();
         bloque = new HashMap<>();
         aula = new HashMap<>();
         
         Facultad fac;
         Departamento dep;
         Materia mat;
+        Profesor prof;
         
         try {
             FileReader f = new FileReader("/home/esteban/Descargas/PROGRAMACION.csv");
@@ -246,10 +250,13 @@ public class ProcesarCSV {
                 fac = new Facultad(actual.getFac(), "");
                 dep = new Departamento(actual.getFac(), actual.getDep(), actual.getIde());
                 mat = new Materia(dep, actual.getCodMateria(), actual.getNombre());
+                prof = new Profesor(actual.getCedula(), actual.getProfesor());
                 
                 facultad.put(fac.getCodigo(), fac);
                 departamento.put(actual.getCodDepartamento(), dep);
                 materia.put(actual.getCodMateria(), mat);
+                profesor.put(prof.getCedula(), prof);
+                
             }
             System.out.println(facultad.size());
             
@@ -319,6 +326,14 @@ public class ProcesarCSV {
         while(it.hasNext()){
             String key = (String) it.next();
             System.out.println(key + "\t" + materia.get(key).getNombre());
+        }
+    }
+    
+    public void mostrarProfesores(){
+        Iterator it = profesor.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String) it.next();
+            System.out.println(key + "\t" + profesor.get(key).getNombre());
         }
     }
     
