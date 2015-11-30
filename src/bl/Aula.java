@@ -12,14 +12,14 @@ package bl;
  */
 class Aula {
     
-    private char numero;
-    private Bloque bloque;
+    private String numero;
+    private Integer bloque;
 
-    public char getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public Bloque getBloque() {
+    public Integer getBloque() {
         return bloque;
     }
     
